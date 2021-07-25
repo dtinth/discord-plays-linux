@@ -14,6 +14,7 @@ services:
     tmpfs: /tmp
     volumes:
       - desktop_home:/home/desktop
+      - ./desktop-config/fonts::/home/desktop/.fonts
       - ./desktop-config/xvfb.sh:/usr/local/bin/xvfb.sh:ro
       - ./desktop-config/default.pa:/home/desktop/.config/pulse/default.pa:ro
   discord:
