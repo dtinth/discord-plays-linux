@@ -6,6 +6,7 @@
       font: 16px '8bitoperator jve', 'noto sans thai';
       -webkit-font-smoothing: none;
       font-smooth: never;
+      overflow: hidden;
     }
   </style>
   <div id="app">
@@ -52,12 +53,50 @@
         ></div>
       </div>
       <div
-        style="position: absolute; padding: 2px 4px; white-space: nowrap"
+        style="
+          position: absolute;
+          padding: 2px 4px;
+          white-space: nowrap;
+          font: bold 15px sans-serif;
+        "
         :style="{[x>1200?'right':'left']:0,[y>600?'bottom':'top']:0}"
       >
         <span id="cursorText">{{x}},{{y}}</span>
       </div>
     </div>
+
+    <div style="font: bold 10px sans-serif; color: #ff9">
+      <div
+        v-for="x of xs"
+        style="
+          position: absolute;
+          top: 0px;
+          white-space: nowrap;
+          width: 50px;
+          transform: translateX(-50%);
+          filter: drop-shadow(1px 1px 0 #0008);
+          text-align: center;
+        "
+        :style="{left:x+'px'}"
+      >
+        {{x}}
+      </div>
+      <div
+        v-for="y of ys"
+        style="
+          position: absolute;
+          left: 0px;
+          white-space: nowrap;
+          width: 50px;
+          transform: translateY(-50%);
+          filter: drop-shadow(1px 1px 0 #0008);
+        "
+        :style="{top:y+'px'}"
+      >
+        {{y}}
+      </div>
+    </div>
+
     <div
       style="
         position: fixed;
@@ -90,6 +129,16 @@
         y: 0,
         msg: '',
         hintRange: [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5],
+        xs: (() => {
+          const xs = []
+          for (let i = 100; i < 1280; i += 100) xs.push(i)
+          return xs
+        })(),
+        ys: (() => {
+          const ys = []
+          for (let i = 100; i < 720; i += 100) ys.push(i)
+          return ys
+        })(),
       },
       methods: {
         o(k) {

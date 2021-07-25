@@ -1,4 +1,4 @@
-# shared-desktop-on-discord
+# Discord Plays Linux
 
 A shared Linux container that can be controlled by anyone on Discord.
 
@@ -37,6 +37,8 @@ docker-compose exec desktop su desktop
 docker-compose exec desktop supervisorctl restart agent
 docker-compose exec desktop supervisorctl tail -f agent
 yarn --cwd=/opt/agent start
-load-module module-tunnel-source server=desktop source=virtual.monitor source_name=desktop
+
+
+pacmd load-module module-tunnel-source server=desktop source=virtual.monitor source_name=desktop
 ffplay -fs -f x11grab -video_size 1280x720 -i desktop:1.0
 ```
