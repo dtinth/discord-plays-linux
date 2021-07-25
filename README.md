@@ -4,9 +4,13 @@ A shared Linux container that can be controlled by anyone on Discord.
 
 ## Components
 
-- A desktop Linux container.
+- Two desktop Linux containers:
+  - `discord` for connecting to Discord.
+  - `desktop` for the actual desktop.
 - An agent to control the VM.
 - A Discord bot that talks to the agent.
+
+![](./setup.drawio.svg)
 
 ## Notes
 
