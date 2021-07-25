@@ -9,9 +9,13 @@ services:
     ports:
       - 127.0.0.1:6081:80
       - 127.0.0.1:5901:5900
+    security_opt:
+      - seccomp:./desktop-config/chrome.json
+    tmpfs: /tmp
     volumes:
       - desktop_home:/home/desktop
-      - ./desktop-xvfb.sh:/usr/local/bin/xvfb.sh
+      - ./desktop-config/xvfb.sh:/usr/local/bin/xvfb.sh:ro
+      - ./desktop-config/default.pa:/home/desktop/.config/pulse/default.pa:ro
   discord:
     build:
       context: desktop
@@ -23,6 +27,8 @@ services:
       - 127.0.0.1:5900:5900
     volumes:
       - discord_home:/home/desktop
+      - ./discord-config/default.pa:/home/desktop/.config/pulse/default.pa:ro
+    tmpfs: /tmp
     ipc: host
     privileged: true
 volumes:
