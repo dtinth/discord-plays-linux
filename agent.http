@@ -1,0 +1,10 @@
+POST http://localhost:2138/rpc
+Content-Type: application/json
+
+{"message":"test"}
+
+###
+POST http://localhost:2138/rpc
+Content-Type: application/json
+
+{"reload":1}

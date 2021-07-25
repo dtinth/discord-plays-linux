@@ -1,13 +1,14 @@
 const { screen, app, BrowserWindow } = require('electron')
-
+const express = require('express')
+const expressApp = express()
 let cwin
-const server = require('http').createServer((req, res) => {
+
+expressApp.use(express.json())
+expressApp.post('/rpc', (req, res) => {
   ;(async () => {
     try {
       await cwin.webContents.executeJavaScript(
-        `writeMessage(${JSON.stringify(
-          Buffer.from(req.headers['x-message'], 'base64').toString('utf8')
-        )})`
+        `writeMessage(${JSON.stringify(req.body)})`
       )
     } catch (error) {
       console.error(error)
@@ -15,7 +16,7 @@ const server = require('http').createServer((req, res) => {
   })()
   res.end()
 })
-server.listen(2138, () => {
+expressApp.listen(2138, () => {
   console.log('ok')
 })
 

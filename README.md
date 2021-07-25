@@ -16,6 +16,7 @@ A shared Linux container that can be controlled by anyone on Discord.
 
 ```sh
 docker-compose exec desktop su desktop
+docker-compose exec desktop supervisorctl restart agent
 yarn --cwd=/opt/agent start
 load-module module-tunnel-source server=desktop source=virtual.monitor source_name=desktop
 ffplay -fs -f x11grab -video_size 1280x720 -i desktop:1.0

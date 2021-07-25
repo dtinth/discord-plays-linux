@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "electron": "9"
+    "electron": "9",
+    "express": "^4.17.1"
   },
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron --enable-transparent-visuals main.js"
   }
 }

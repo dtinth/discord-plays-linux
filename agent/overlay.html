@@ -109,14 +109,16 @@
       vm.x = x
       vm.y = y
     }
-    function writeMessage(eventJson) {
-      const event = JSON.parse(eventJson)
+    function writeMessage(event) {
       if (event.message) {
         const m = event.message
         vm.msg = ((vm.msg ? vm.msg + '\n' : '') + '* ' + m)
           .split('\n')
           .slice(-5)
           .join('\n')
+      }
+      if (event.reload) {
+        location.reload()
       }
     }
   </script>
