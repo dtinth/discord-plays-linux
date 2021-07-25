@@ -1,0 +1,15 @@
+--- supervisord.conf.bak        2021-07-10 07:46:05.620433467 +0000
++++ supervisord.conf    2021-07-10 07:46:48.609203929 +0000
+@@ -23,8 +23,10 @@
+ 
+ [program:wm]
+ priority=15
+-command=/usr/bin/openbox
+-environment=DISPLAY=":1",HOME="/root",USER="root"
++directory=/home/desktop
++command=/usr/bin/kwin
++environment=DISPLAY=":1",HOME="/home/desktop",USER="desktop"
++user=desktop
+ 
+ [program:lxpanel]
+ priority=15

@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 services:
   desktop:
     build:
@@ -6,6 +6,7 @@ services:
     environment:
       RESOLUTION: 1280x720
       USER: desktop
+      DISPLAY: :1
     ports:
       - 127.0.0.1:6081:80
       - 127.0.0.1:5901:5900
@@ -13,7 +14,7 @@ services:
       - seccomp:./desktop-config/chrome.json
     tmpfs: /tmp
     volumes:
-      - desktop_home:/home/desktop
+      - ./agent:/opt/agent:ro
       - ./desktop-config/fonts:/home/desktop/.fonts:ro
       - ./desktop-config/xvfb.sh:/usr/local/bin/xvfb.sh:ro
       - ./desktop-config/default.pa:/home/desktop/.config/pulse/default.pa:ro
@@ -23,6 +24,7 @@ services:
     environment:
       RESOLUTION: 1280x720
       USER: desktop
+      DISPLAY: :1
     ports:
       - 127.0.0.1:6080:80
       - 127.0.0.1:5900:5900
@@ -34,9 +36,3 @@ services:
     privileged: true
 volumes:
   discord_home:
-  desktop_home:
-    driver: local
-    driver_opts:
-      o: "size=5000m"
-      device: tmpfs
-      type: tmpfs

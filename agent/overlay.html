@@ -1,0 +1,123 @@
+<html>
+  <style>
+    html,
+    body {
+      background: #0000;
+      font: 16px '8bitoperator jve', 'noto sans thai';
+      -webkit-font-smoothing: none;
+      font-smooth: never;
+    }
+  </style>
+  <div id="app">
+    <div
+      style="
+        position: fixed;
+        color: #ff9;
+        filter: drop-shadow(1px 1px 1px black);
+      "
+      :style="{left:x+'px',top:y+'px'}"
+    >
+      <div
+        v-for="k in hintRange"
+        :key="k"
+        style="position: absolute"
+        :style="{left:k*100+'px',opacity:o(k)}"
+      >
+        <div
+          style="
+            position: absolute;
+            background: currentColor;
+            width: 1px;
+            height: 16px;
+            top: -8px;
+            left: -1px;
+          "
+        ></div>
+      </div>
+      <div
+        v-for="k in hintRange"
+        :key="k"
+        style="position: absolute"
+        :style="{top:k*100+'px',opacity:o(k)}"
+      >
+        <div
+          style="
+            position: absolute;
+            background: currentColor;
+            width: 16px;
+            height: 1px;
+            top: -1px;
+            left: -8px;
+          "
+        ></div>
+      </div>
+      <div
+        style="position: absolute; padding: 2px 4px; white-space: nowrap"
+        :style="{[x>1200?'right':'left']:0,[y>600?'bottom':'top']:0}"
+      >
+        <span id="cursorText">{{x}},{{y}}</span>
+      </div>
+    </div>
+    <div
+      style="
+        position: fixed;
+        color: #ff9;
+        bottom: 4px;
+        left: 4px;
+        filter: drop-shadow(1px 1px 1px black);
+      "
+    >
+      <div
+        style="
+          background: #0006;
+          padding: 2px 4px;
+          white-space: pre-line;
+          line-height: 21px;
+        "
+        v-if="msg"
+      >
+        {{msg}}
+      </div>
+    </div>
+  </div>
+  <script src="vendor/vue.js"></script>
+  <script>
+    let ct
+    vm = new Vue({
+      el: '#app',
+      data: {
+        x: 0,
+        y: 0,
+        msg: '',
+        hintRange: [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5],
+      },
+      methods: {
+        o(k) {
+          return 1 - Math.abs(k) * 0.18
+        },
+      },
+      watch: {
+        msg(v) {
+          if (v) {
+            clearTimeout(ct)
+            ct = setTimeout(() => (this.msg = ''), 10000)
+          }
+        },
+      },
+    })
+    function setPosition(x, y) {
+      vm.x = x
+      vm.y = y
+    }
+    function writeMessage(eventJson) {
+      const event = JSON.parse(eventJson)
+      if (event.message) {
+        const m = event.message
+        vm.msg = ((vm.msg ? vm.msg + '\n' : '') + '* ' + m)
+          .split('\n')
+          .slice(-5)
+          .join('\n')
+      }
+    }
+  </script>
+</html>
