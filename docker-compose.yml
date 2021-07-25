@@ -37,5 +37,13 @@ services:
     tmpfs: /tmp
     ipc: host
     privileged: true
+  bot:
+    image: node:16.5.0-alpine
+    init: true
+    command: yarn --cwd=/usr/src/app start
+    env_file: .env
+    restart: always
+    volumes:
+      - ./bot:/usr/src/app:ro
 volumes:
   discord_home:

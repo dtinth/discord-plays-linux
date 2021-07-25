@@ -1,21 +1,32 @@
 const { screen, app, BrowserWindow } = require('electron')
 const express = require('express')
 const expressApp = express()
+const acquireLock = require('throat')(1)
 let cwin
 
 expressApp.use(express.json())
-expressApp.post('/rpc', (req, res) => {
-  ;(async () => {
-    try {
-      await cwin.webContents.executeJavaScript(
-        `writeMessage(${JSON.stringify(req.body)})`
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  })()
-  res.end()
+
+expressApp.post('/rpc', async (req, res, next) => {
+  const id = require.resolve('./rpcHandler')
+  delete require.cache[id]
+  const rpcHandler = require(id)
+  try {
+    const result = await acquireLock(() =>
+      rpcHandler.handle(req.body, {
+        sendToRenderer: (event) => {
+          cwin.webContents.executeJavaScript(
+            `writeMessage(${JSON.stringify(event)})`
+          )
+        },
+      })
+    )
+    res.json(result)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
 })
+
 expressApp.listen(2138, () => {
   console.log('ok')
 })
