@@ -12,6 +12,24 @@ A shared Linux container that can be controlled by anyone on Discord.
 
 ![](./setup.drawio.svg)
 
+## Bot commands
+
+| Command      | Description                                          |
+| ------------ | ---------------------------------------------------- |
+| `m<x>,<y>`   | Move the mouse by the given offset.                  |
+| `M<x>,<y>`   | Move the mouse to the given position.                |
+| `l<x>,<y>`   | Drag the mouse by the given offset.                  |
+| `L<x>,<y>`   | Drag the mouse to the given position.                |
+| `c`          | Click the mouse.                                     |
+| `rc`         | Right-click the mouse.                               |
+| `mc`         | Middle-click the mouse.                              |
+| `u`, `uu`, … | Scroll the mouse wheel up (by the number of `u`s).   |
+| `d`, `dd`, … | Scroll the mouse wheel down (by the number of `d`s). |
+| `k <key> …`  | Press the keyboard key.                              |
+| `t <text>`   | Type the given text.                                 |
+| `e`          | Press the enter key.                                 |
+| `y <text>`   | Copy the given text to the clipboard.                |
+
 ## Notes
 
 ```sh
