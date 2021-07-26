@@ -52,6 +52,9 @@ docker-compose exec desktop supervisorctl restart agent
 # Tail agent logs
 docker-compose exec desktop supervisorctl tail -f agent
 
+# Show overlay
+docker-compose exec discord sudo -u desktop -H /opt/overlay/start.sh
+
 # Pipe sound from desktop to Discord
 pacmd load-module module-tunnel-source server=desktop source=virtual.monitor source_name=desktop
 

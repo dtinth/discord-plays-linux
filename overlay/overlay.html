@@ -107,15 +107,10 @@
       "
     >
       <div
-        style="
-          background: #0006;
-          padding: 2px 4px;
-          white-space: pre-line;
-          line-height: 21px;
-        "
+        style="background: #0006; padding: 2px 4px; line-height: 21px"
         v-if="msg"
       >
-        {{msg}}
+        <span style="white-space: pre-line">{{msg}}</span>
       </div>
     </div>
   </div>
@@ -158,13 +153,17 @@
       vm.x = x
       vm.y = y
     }
-    function writeMessage(event) {
+    function dispatch(event) {
+      if (event.mouse) {
+        setPosition(event.mouse.x, event.mouse.y)
+      }
       if (event.message) {
         const m = event.message
         vm.msg = ((vm.msg ? vm.msg + '\n' : '') + '* ' + m)
           .split('\n')
           .slice(-5)
           .join('\n')
+          .trim()
       }
       if (event.reload) {
         location.reload()

@@ -33,6 +33,7 @@ services:
       - 127.0.0.1:5900:5900
     volumes:
       - discord_home:/home/desktop
+      - ./overlay:/opt/overlay:ro
       - ./discord-config/default.pa:/home/desktop/.config/pulse/default.pa:ro
     tmpfs: /tmp
     ipc: host

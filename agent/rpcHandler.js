@@ -3,18 +3,25 @@ const execa = require('execa')
 exports.handle = async (body, { sendToRenderer }) => {
   if (body.message) {
     const { message } = body
-    const content = message.content
-    await handleMessageContent(content)
+    const { content, name } = message
+    await handleMessageContent(content, {
+      recordAction: (actionName) => {
+        sendToRenderer({
+          message: `${name}: ${actionName}`,
+        })
+      },
+    })
   } else {
     sendToRenderer(body)
   }
 }
 
-async function handleMessageContent(content) {
+async function handleMessageContent(content, { recordAction = () => {} }) {
   const actions = parseCommand(content)
   if (actions.length) {
     for (const action of actions) {
       console.log(' =>', action.name)
+      recordAction(action.name)
       await action.execute().catch((error) => {
         console.error(error)
       })
