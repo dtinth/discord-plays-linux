@@ -1,6 +1,7 @@
 const fs = require('fs')
 
-module.exports = (text) => {
+module.exports = async (text) => {
+  // const data = await require('./ocr').readScreen()
   const data = JSON.parse(fs.readFileSync('/tmp/ocr.json', 'utf8'))
   let active = []
   for (const symbol of data) {

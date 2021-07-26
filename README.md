@@ -31,15 +31,30 @@ A shared Linux container that can be controlled by anyone on Discord.
 
 ![](./setup.drawio.svg)
 
-## Notes
+## Notes for server operators
 
 ```sh
+# Start all services
+docker-compose up -d
+
+# Tail logs
+docker-compose logs --tail=100 -f
+
+# Access desktop as root
+docker-compose exec desktop bash
+
+# Access desktop as desktop user
 docker-compose exec desktop su desktop
+
+# Restart agent (sometimes required when transparency is not working)
 docker-compose exec desktop supervisorctl restart agent
+
+# Tail agent logs
 docker-compose exec desktop supervisorctl tail -f agent
-yarn --cwd=/opt/agent start
 
-
+# Pipe sound from desktop to Discord
 pacmd load-module module-tunnel-source server=desktop source=virtual.monitor source_name=desktop
+
+# Pipe video from desktop to Discord
 ffplay -fs -f x11grab -video_size 1280x720 -i desktop:1.0
 ```

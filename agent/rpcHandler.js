@@ -39,8 +39,10 @@ function findText(text) {
       const readOcr = require(id)
       const result = await readOcr(text)
       if (!result) {
+        console.log('Not found')
         return
       }
+      console.log(result)
       const args = ['mousemove', result.x, result.y]
       execa('xdotool', args, { reject: false })
     },
@@ -105,5 +107,7 @@ function parseCommand(content) {
 }
 
 if (require.main === module) {
-  handleMessageContent(process.argv[2])
+  handleMessageContent(process.argv[2]).finally(() => {
+    process.exit()
+  })
 }
