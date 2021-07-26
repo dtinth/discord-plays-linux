@@ -10,6 +10,7 @@ A shared Linux container that can be controlled by anyone on Discord.
 | `M<x>,<y>`   | Move the mouse to the given position.                |
 | `l<x>,<y>`   | Drag the mouse by the given offset.                  |
 | `L<x>,<y>`   | Drag the mouse to the given position.                |
+| `f <text>`   | Move mouse cursor to the given text (uses OCR).      |
 | `c`          | Click the mouse.                                     |
 | `rc`         | Right-click the mouse.                               |
 | `mc`         | Middle-click the mouse.                              |

@@ -3,19 +3,23 @@ const execa = require('execa')
 exports.handle = async (body, { sendToRenderer }) => {
   if (body.message) {
     const { message } = body
-    const actions = parseCommand(message.content)
-    if (actions.length) {
-      console.log(message)
-      for (const action of actions) {
-        console.log(' =>', action.name)
-        await action.execute().catch((error) => {
-          console.error(error)
-        })
-        await new Promise((r) => setTimeout(r, 100))
-      }
-    }
+    const content = message.content
+    await handleMessageContent(content)
   } else {
     sendToRenderer(body)
+  }
+}
+
+async function handleMessageContent(content) {
+  const actions = parseCommand(content)
+  if (actions.length) {
+    for (const action of actions) {
+      console.log(' =>', action.name)
+      await action.execute().catch((error) => {
+        console.error(error)
+      })
+      await new Promise((r) => setTimeout(r, 100))
+    }
   }
 }
 
@@ -23,6 +27,23 @@ function xdotool(...args) {
   return {
     name: args.join(' '),
     execute: async () => execa('xdotool', args, { reject: false }),
+  }
+}
+
+function findText(text) {
+  return {
+    name: 'find ' + text,
+    execute: async () => {
+      const id = require.resolve('./readOcr')
+      delete require.cache[id]
+      const readOcr = require(id)
+      const result = await readOcr(text)
+      if (!result) {
+        return
+      }
+      const args = ['mousemove', result.x, result.y]
+      execa('xdotool', args, { reject: false })
+    },
   }
 }
 
@@ -58,20 +79,22 @@ function parseCommand(content) {
         xdotool('mousemove', m[1], m[2]),
         xdotool('mouseup', '1')
       )
-    } else if ((m = text.match(/^c$/))) {
-      actions.push(xdotool('click', '1'))
-    } else if ((m = text.match(/^e$/))) {
-      actions.push(xdotool('key', 'Return'))
+    } else if ((m = text.match(/^(c+)$/))) {
+      actions.push(xdotool('click', '--repeat', m[1].length, '1'))
     } else if ((m = text.match(/^mc$/))) {
       actions.push(xdotool('click', '2'))
     } else if ((m = text.match(/^rc$/))) {
       actions.push(xdotool('click', '3'))
+    } else if ((m = text.match(/^e$/))) {
+      actions.push(xdotool('key', 'Return'))
     } else if ((m = text.match(/^u+$/))) {
       actions.push(xdotool('click', '--repeat', m[0].length, '4'))
     } else if ((m = text.match(/^d+$/))) {
       actions.push(xdotool('click', '--repeat', m[0].length, '5'))
     } else if ((m = text.match(/^t\s+([^]+)$/))) {
       actions.push(xdotool('type', m[1]))
+    } else if ((m = text.match(/^f\s+([^]+)$/))) {
+      actions.push(findText(m[1]))
     } else if ((m = text.match(/^y\s+([^]+)$/))) {
       actions.push(copy(m[1]))
     } else if ((m = text.match(/^k\s+([^]+)$/))) {
@@ -79,4 +102,8 @@ function parseCommand(content) {
     }
   }
   return actions
+}
+
+if (require.main === module) {
+  handleMessageContent(process.argv[2])
 }
