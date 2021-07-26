@@ -2,16 +2,6 @@
 
 A shared Linux container that can be controlled by anyone on Discord.
 
-## Components
-
-- Two desktop Linux containers:
-  - `discord` for connecting to Discord.
-  - `desktop` for the actual desktop.
-- An agent to control the VM.
-- A Discord bot that talks to the agent.
-
-![](./setup.drawio.svg)
-
 ## Bot commands
 
 | Command      | Description                                          |
@@ -29,6 +19,16 @@ A shared Linux container that can be controlled by anyone on Discord.
 | `t <text>`   | Type the given text.                                 |
 | `e`          | Press the enter key.                                 |
 | `y <text>`   | Copy the given text to the clipboard.                |
+
+## Components
+
+- Two desktop Linux containers:
+  - `discord` for connecting to Discord.
+  - `desktop` for the actual desktop.
+- An agent to control the VM.
+- A Discord bot that talks to the agent.
+
+![](./setup.drawio.svg)
 
 ## Notes
 
