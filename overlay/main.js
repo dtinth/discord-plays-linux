@@ -38,4 +38,10 @@ app.whenReady().then(async () => {
     }
     dispatch(event)
   })
+
+  process.stdin.on('data', (b) => {
+    if (b.toString().includes('\n')) {
+      dispatch({ reload: 1 })
+    }
+  })
 })
