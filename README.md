@@ -49,6 +49,12 @@ docker-compose exec desktop su desktop
 # Restart agent (sometimes required when transparency is not working)
 docker-compose exec desktop supervisorctl restart agent
 
+# Stop OCR system (when CPU overloaded)
+docker-compose exec desktop supervisorctl stop ocr
+
+# Recreate the Desktop docker container (when someone `rm -rf`’d it)
+docker-compose up -d --force-recreate desktop
+
 # Tail agent logs
 docker-compose exec desktop supervisorctl tail -f agent
 
