@@ -21,6 +21,8 @@ services:
       - ./desktop-config/fonts:/home/desktop/.fonts:ro
       - ./desktop-config/xvfb.sh:/usr/local/bin/xvfb.sh:ro
       - ./desktop-config/default.pa:/home/desktop/.config/pulse/default.pa:ro
+    cpu_percent: 90
+    pids_limit: 1000
   discord:
     build:
       context: desktop
