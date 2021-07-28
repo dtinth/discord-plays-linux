@@ -64,6 +64,9 @@ function copy(text) {
 }
 
 function parseCommand(content) {
+  if (content.startsWith('<<')) {
+    return [xdotool('type', content.slice(2) + '\n')]
+  }
   const cmds = String(content)
     .trim()
     .split('\n')
