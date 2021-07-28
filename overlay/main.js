@@ -5,7 +5,7 @@ const socket = io('http://desktop:2138')
 let cwin
 
 app.whenReady().then(async () => {
-  await new Promise((r) => setTimeout(r, 300))
+  await new Promise((r) => setTimeout(r, 1000))
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
